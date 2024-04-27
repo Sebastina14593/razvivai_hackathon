@@ -1,0 +1,28 @@
+{% extends 'main/layout.html' %}
+{% block title %}Форма по добавлению резюме{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Форма по добавлению резюме</h1>
+<!--Здесь будет храниться форма-->
+<!--параметр action - отвечает за страницу, на которой проверяются данные-->
+<!--если не вставлять, то по умолчанию текущая страница-->
+        <form method="post">
+<!--Без нижнего токена отправка резюме не произойдет!-->
+            {% csrf_token %}<br>
+            {{ form.fio }}<br>
+            {{ form.sberposition }}<br>
+            {{ form.skills }}<br>
+            {{ form.date }}<br>
+            <span>{{ error }}</span>
+<!--            <input type="text" placeholder="ФИО будущего сотрудника" class = "form-control"><br>-->
+<!--            <input type="text" placeholder="Позиция сотрудника внутри Сбера" class = "form-control"><br>-->
+<!--            <textarea class = "form-control" placeholder = "Навыки"></textarea><br>-->
+<!--            <input type="date" class = "form-control"><br>-->
+<!--            <input type="time" class = "form-control"><br>-->
+            <button class = "btn btn-success" type = "submit">Отправить резюме</button>
+        </form>
+<!--Не забудь связать форму с таблицей! (в файле forms.py)-->
+    </div>
+
+{% endblock %}

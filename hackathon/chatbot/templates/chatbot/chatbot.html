@@ -1,0 +1,246 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block styles %}
+<style>
+    body, html {
+      height: 100%;
+      background: #FFFAFA;
+    }
+
+    .messages-box {
+      border: 0px;
+      flex: 1;
+      overflow-y: auto;
+      background: #FFFAFA;
+    }
+
+    .messages-list {
+      padding-left: 0;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      list-style: none;
+    }
+
+    .message-text {
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .sent {
+      background-color: #FFFAFA;
+      align-self: flex-end;
+    }
+
+    li received {
+      background-color: #FFFAFA;
+      align-self: flex-start;
+    }
+
+    .message-form {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      background-color: #FFFAFA;
+    }
+
+    .message-input {
+      flex: 1;
+      border-radius: 0;
+      border-right: none;
+    }
+
+    .btn-send {
+      border-radius: 0;
+    }
+
+    .chat-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-content {
+    background-color: #C1F2FF; /* Голубой цвет фона */
+    border-radius: 20px; /* Радиус скругления углов */
+    padding: 10px; /* Отступы внутри блока */
+}
+
+    .input-group {
+      background-color: #EAECEE; /* Серый цвет фона */
+    border-radius: 20px; /* Радиус скругления углов */
+    padding: 10px; /* Отступы внутри блока */
+    }
+
+    .input-group-append {
+      background-color: #EAECEE; /* Серый цвет фона */
+    border-radius: 20px; /* Радиус скругления углов */
+    padding: 10px; /* Отступы внутри блока */
+    }
+
+    .message-form {
+      background-color: #EAECEE; /* Серый цвет фона */
+    border-radius: 20px; /* Радиус скругления углов */
+    padding: 10px; /* Отступы внутри блока */
+    }
+
+    .btn.btn-primary.btn-send {
+      background-color: #ABB2B9; /* Серый цвет фона */
+    border-radius: 20px; /* Радиус скругления углов */
+    padding: 10px; /* Отступы внутри блока */
+      border: 1px solid #D7DBDD;
+    }
+
+    .form-control.message-input {
+      background-color: white; /* Серый цвет фона */
+    border-radius: 5px; /* Радиус скругления углов */
+    /*padding: 10px; !* Отступы внутри блока *!*/
+      border: 1px;
+    }
+
+
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  <span><div>главная / помощник</div>
+  <h1><img src="{% static 'main/img/assistant.png' %}" style="width:3%">    помощник</h1></span>
+  <div class="chat-container">
+    <div class="card flex-grow-1">
+  <!--    <div class="card-header bg-primary text-white"><b>GigaChat</b></div>-->
+  <!--      <div class="card-header bg-primary text-white" style="text-align: right;"><a style="color: whitesmoke" href="/"><b>вернуться обратно</b></a></div>-->
+  <!--    {% if user.is_authenticated %}-->
+  <!--    <div class="card-header bg-primary text-white"><b>Добро пожаловать, {{user.username}}</b>  <a style="color: whitesmoke" href="logout">Выйти</a></div>-->
+  <!--    <div class="card-header bg-primary text-white"><b>Добро пожаловать, {{user.username}}!</b>  <a style="color: whitesmoke" href="/">Вернуться в Пульс</a></div>-->
+  <!--    {% else %}-->
+  <!--    <div class="card-header bg-primary text-white"><a style="color: whitesmoke" href="login">Войти</a>  <a style="color: whitesmoke" href="register">Регистрация</a></div>-->
+  <!--    {% endif %}-->
+      <div class="card-body messages-box">
+
+        <ul class="list-unstyled messages-list">
+
+          <li class="message received">
+            <div class="message-text">
+              <div class="message-sender">
+                <b>ИИ-помощник</b>
+              </div>
+              <div class="message-content">
+                Добрый день, Ева! Рад Вас видеть! Я проанализировал ситуацию в вашей команде и подготовил следующие рекомендации:
+                    <br><br> 1. Светлана имеет перспективы повышения. Я могу предложить кандидатов из вашей команды для подготовки преемника и построить траекторию его подготовки к новой должности.
+                    <br><br> 2. Вам выделено 2 ПШЕ. Я могу порекомендовать внутренних кандидатов по вашему запросу.
+                    <br><br> 3. На этой неделе у вас уволился аналитик данных. Я могу создать заявку на вакансию и порекомендовать внутренних кандидатов.
+                    <br><br>Вас интересуют рекомендации по этим вопросам?
+
+              </div>
+            </div>
+          </li>
+
+          {% for chat in chats %}
+            {% if chat.user == request.user %}
+              <li class="message received">
+                <div class="message-text">
+                  <div class="message-sender">
+                    <b>Ева</b>
+                  </div>
+                  <div class="message-content">
+                    {{chat.message}}
+                  </div>
+                </div>
+          </li>
+
+          <li class="message received">
+            <div class="message-text">
+              <div class="message-sender">
+                <b>ИИ-помощник</b>
+              </div>
+              <div class="message-content">
+                {{chat.response}}
+              </div>
+            </div>
+          </li>
+            {% endif %}
+          {% endfor %}
+
+        </ul>
+
+      </div>
+      <br><br>
+      <br><br>
+      <br><br>
+    </div>
+    <form class="message-form">
+      {%csrf_token%}
+      <div class="input-group">
+        <input type="text" class="form-control message-input" placeholder="Напишите запрос...">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-primary btn-send">Отправить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const messagesList = document.querySelector('.messages-list');
+    const messageForm = document.querySelector('.message-form');
+    const messageInput = document.querySelector('.message-input');
+
+    // Когда пользователь нажал на кнопку, то тогда
+    // страница обновляться не будет
+    messageForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // сохраняем введенное сообщение (обрезая до нужных слов):
+      const message = messageInput.value.trim();
+      if (message.length === 0) {
+        return;
+      }
+      // создаем новый элемент список, в который добавляем классы message и sent
+      const messageItem = document.createElement('li');
+      messageItem.classList.add('message', 'sent');
+      messageItem.innerHTML = `
+          <div class="message-text">
+              <div class="message-sender">
+                  <b>Ева</b>
+              </div>
+              <div class="message-content">
+                  ${message}
+              </div>
+          </div>`;
+      messagesList.appendChild(messageItem);
+
+      messageInput.value = '';
+
+      fetch('', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+          'message': message
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const response = data.response;
+          const messageItem = document.createElement('li');
+          messageItem.classList.add('message', 'received');
+          messageItem.innerHTML = `
+          <div class="message-text">
+              <div class="message-sender">
+                <b>ИИ-помощник</b>
+              </div>
+              <div class="message-content">
+                  ${response}
+              </div>
+          </div>
+            `;
+          messagesList.appendChild(messageItem);
+        });
+    });
+
+  </script>
+{% endblock %}

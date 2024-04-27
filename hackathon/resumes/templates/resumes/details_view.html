@@ -1,0 +1,72 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}{{ resume.fio }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <style>
+          .container {
+            display: flex; /* Используем flexbox */
+            justify-content: space-between; /* Распределяем пространство между элементами */
+            align-items: center; /* Выравниваем элементы по вертикали */
+            white-space: nowrap; /* Элементы не переносятся на новую строку */
+          }
+        </style>
+        <div class="container">
+          <div>главная / помощник / резюме кандидатов / {{ resume.fio }} </div>
+          <div><a href="/chatbot" class="btn btn-primary">вернуться к помощнику</a></div>
+        </div>
+<!--        <div>{% if user.is_authenticated %}<a href="logout" class="btn btn-primary">Выйти</a>-->
+<!--               {% else %}<a href="login" class="btn btn-primary">Войти</a> <a href="register" class="btn btn-primary">Зарегистрироваться</a>-->
+<!--               {% endif %}</div></div>-->
+        <h1>{{ resume.fio }}</h1>
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Общие сведения:</h2>
+        <p>Должность в Сбере: {{ resume.position }}</p>
+        <p>Навыки: {{ resume.skills }}</p>
+
+        <p>Стаж: {{resume.work_exprience}} месяцев в должности, {{resume.total_work_exprience}} месяцев общий в компании</p>
+        {% if resume.managment_experience > 0 %}<p>Опыт управления: {{resume.managment_experience}} месяцев </p> {% endif %}
+        <p>Проф. теги: {{resume.prof_tags}}</p>
+        <p>Интересы: {{resume.hobbies}}</p>
+        <p>Карьерный статус: открыт для предложений</p>
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Результативность:</h2>
+        <p>Оценка 5+: {% if resume.score == '44' %} BB {% elif resume.score == '43' %} BC
+                      {% elif resume.score == '34' %} CB {% elif resume.score == '33' %} CC {% endif %}  </p>
+
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Опыт и достижения:</h2>
+        <p>Должность на последнем месте работы: {{resume.position}}</p>
+        <p>Профессиональная область: {{resume.prof_area}}</p>
+
+        <p>Результаты: {{resume.achievements}}</p>
+
+        {% if resume.key_achievements != '-' %}
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Ключевые достижения:</h2>
+        <p> {{resume.key_achievements}}</p>
+        {% endif %}
+
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Владение языками:</h2>
+        <p>{% if resume.language_skills != '-' %}{{resume.language_skills}}{% else %}{% endif %}</p>
+
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Образование и научная деятельность:</h2>
+        <p>{% if resume.degree != '-' %}{{resume.degree}}{% else %}{% endif %}</p>
+
+        {% if resume.psychotype != '-' %}
+        <h4>__________________________________________________________________________________________________________________________</h4>
+        <h2>Психологичекий портрет:</h2>
+        <p> {{resume.psychotype}}</p>
+        {% endif %}
+
+<!--        <p>Дата создания резюме: {{ resume.created_at }}</p>-->
+        <br><br>
+        <a href="{% url 'resumes_delete' resume.id %}" class="btn btn-danger">Удалить резюме</a>
+        <a href="{% url 'resumes_update' resume.id %}" class="btn btn-info">Редактировать резюме</a>
+
+    </div>
+
+{% endblock %}

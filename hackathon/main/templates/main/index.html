@@ -1,0 +1,39 @@
+<!--Указываем наследование от нужного файла-->
+{% extends 'main/layout.html' %}
+<!--Внутрь блока content помещаем html код-->
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<!--    <h1>Главная страница</h1>-->
+<!--    <p>Главная страница</p>-->
+    <div class="features">
+<!--        <p>главная / помощник</p> {% if user.is_authenticated %}<button class="btn btn-primary" style="float: right;" href="logout">Выйти</button></div>{% endif %}-->
+        <style>
+          .container {
+            display: flex; /* Используем flexbox */
+            justify-content: space-between; /* Распределяем пространство между элементами */
+            align-items: center; /* Выравниваем элементы по вертикали */
+            white-space: nowrap; /* Элементы не переносятся на новую строку */
+          }
+        </style>
+        <div class="container">
+          <div>главная / помощник</div>
+          <div>{% if user.is_authenticated %}<a href="logout" class="btn btn-primary">Выйти</a>
+               {% else %}<a href="login" class="btn btn-primary">Войти</a> <a href="register" class="btn btn-primary">Зарегистрироваться</a>
+               {% endif %}</div></div>
+
+<!--здесь будем выводить значение из файла views-->
+        <h1>{{ title }}</h1>
+        <br><br>
+        {% if user.is_authenticated %}
+        <a href="{% url 'resumes_home' %}" class="btn btn-primary">резюме кандидатов</a>
+        <p></p>
+        <a href="{% url 'chatbot' %}" class="btn btn-primary">к помощнику</a>
+        {% else %}
+        <a href="" class="btn btn-primary">резюме кандидатов</a>
+        <p></p>
+        <a href="" class="btn btn-primary">к помощнику</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

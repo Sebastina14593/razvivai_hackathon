@@ -1,0 +1,74 @@
+body {
+    background: #FFFAFA;
+}
+
+aside {
+    float: left;
+    background: #F5F5F5;
+    width: 20%;
+    padding: 2.5%;
+    height: 305vh;
+    color: #000;
+}
+
+aside img {
+    width: 120px;
+}
+
+aside p {
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+aside b {
+display: flex;
+justify-content: center; /* Центрирование по горизонтали */
+/*align-items: center; !* Центрирование по вертикали *!*/
+}
+
+aside span {
+display: flex;
+justify-content: center; /* Центрирование по горизонтали */
+/*align-items: center; !* Центрирование по вертикали *!*/
+}
+
+aside ul {list-style: none}
+aside ul li {
+    color: #000000;
+    display: block;
+    margin-top: 12px;
+    margin-left: -35px;
+    transition: transform .3s ease;
+}
+
+aside ul li:hover, aside ul a:hover {
+    text-decoration: none;
+    transform: scale(1.02)
+}
+
+main .features {
+    float: left;
+    color: #000000;
+    margin-top: 10px;
+    margin-left: 28px;
+    text-align: left;
+    width: 75%;
+}
+
+/*main .features h1 {margin-top: 28px;}*/
+/*main .features p {max-width: 400px; margin: 20px auto}*/
+
+.alert-info {
+    float: left;
+    clear: both;
+    width: 400px;
+    margin: 20px 34%;
+    text-align: left;
+
+}
+
+form {
+    margin-left: 32%;
+    width: 500px;
+    margin-top: 50px;
+}

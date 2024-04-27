@@ -1,0 +1,16 @@
+<!--Указываем наследование от нужного файла-->
+{% extends 'main/layout.html' %}
+<!--Внутрь блока content помещаем html код-->
+{% block title %}Про нас{% endblock %}
+
+{% block content %}
+<!--    <h1>Про нас</h1>-->
+<!--    <p>Про нас</p>-->
+    <div class="features">
+        <p>главная / помощник</p>
+        <h1>помощник</h1>
+<!--Здесь будет заглушка-->
+        <p></p>
+        <a href="{% url 'chatbot' %}" class="btn btn-danger">К помощнику</a>
+    </div>
+{% endblock %}

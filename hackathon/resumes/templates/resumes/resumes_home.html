@@ -1,0 +1,47 @@
+{% extends 'main/layout.html' %}
+{% block title %}Резюме кандидатов{% endblock %}
+
+{% block content %}
+    <div class="features">
+<!--        <style>-->
+<!--          .container {-->
+<!--            display: flex; /* Используем flexbox */-->
+<!--            justify-content: space-between; /* Распределяем пространство между элементами */-->
+<!--            align-items: center; /* Выравниваем элементы по вертикали */-->
+<!--            white-space: nowrap; /* Элементы не переносятся на новую строку */-->
+<!--          }-->
+<!--        </style>-->
+                <style>
+          .container {
+            display: flex; /* Используем flexbox */
+            justify-content: space-between; /* Распределяем пространство между элементами */
+            align-items: center; /* Выравниваем элементы по вертикали */
+            white-space: nowrap; /* Элементы не переносятся на новую строку */
+          }
+        </style>
+        <div class="container">
+          <div>главная / помощник / резюме кандидатов / {{ resume.fio }} </div>
+          <div><a href="/" class="btn btn-primary">вернуться к помощнику</a></div>
+        </div>
+
+        <h1>резюме кандидатов</h1>
+<!--        <p></p>-->
+<!--        <button class="btn btn-warning">к помощнику</button>-->
+
+<!--        {{ resumes }}-->
+        {% if resumes %}
+            {% for el in resumes %}
+                <div class="alert alert-info">
+                    <h3>{{ el.fio }}</h3>
+                    <p>{{ el.position }}</p>
+                    <a href="{% url 'resumes_detail' el.id %}" class="btn btn-info">подробнее...</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>К сожалению, пододящих кандидатов нет</p>
+        {% endif %}
+
+        {# Комментарий #}
+    </div>
+
+{% endblock %}
