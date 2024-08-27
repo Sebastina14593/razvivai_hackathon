@@ -1,187 +1,174 @@
-{% extends 'main/layout.html' %}
 {% load static %}
 
 {% block styles %}
 <style>
     body, html {
-      height: 100%;
-      background: #FFFAFA;
-    }
-
-    .messages-box {
-      border: 0px;
-      flex: 1;
-      overflow-y: auto;
-      background: #FFFAFA;
-    }
-
-    .messages-list {
-      padding-left: 0;
-    }
-
-    .message {
-      margin-bottom: 15px;
-      list-style: none;
-    }
-
-    .message-text {
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    .sent {
-      background-color: #FFFAFA;
-      align-self: flex-end;
-    }
-
-    li received {
-      background-color: #FFFAFA;
-      align-self: flex-start;
-    }
-
-    .message-form {
-      display: flex;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 10px;
-      background-color: #FFFAFA;
-    }
-
-    .message-input {
-      flex: 1;
-      border-radius: 0;
-      border-right: none;
-    }
-
-    .btn-send {
-      border-radius: 0;
-    }
-
-    .chat-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .message-content {
-    background-color: #C1F2FF; /* Голубой цвет фона */
-    border-radius: 20px; /* Радиус скругления углов */
-    padding: 10px; /* Отступы внутри блока */
+    height: 100%;
+    background: linear-gradient(to bottom, #ffffff 65%, #e0f7fa 70%, #f0f8ff 100%);
+    overflow: hidden; /* Отключите прокрутку для всего экрана */
 }
 
-    .input-group {
-      background-color: #EAECEE; /* Серый цвет фона */
-    border-radius: 20px; /* Радиус скругления углов */
-    padding: 10px; /* Отступы внутри блока */
+.chat-container {
+    height: 63%;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px; /* Установите максимальную ширину для контейнера */
+    margin: 20px auto;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #ffffff 76%, #e0f7fa 81%, #f0f8ff 100%);
+    overflow-y: auto; /* Добавьте прокрутку только для этого элемента */
+}
+
+/* Настройка красивого скроллбара */
+.chat-container::-webkit-scrollbar {
+    width: 12px; /* Ширина скроллбара */
+    height: 12px; /* Высота скроллбара */
+}
+
+.chat-container::-webkit-scrollbar-track {
+<!--    background: #f0f0f0; /* Цвет трека */-->
+    border-radius: 10px; /* Закругленные углы трека */
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background-color: #ebeded; /* Цвет ползунка */
+    border-radius: 20px; /* Закругленные углы ползунка */
+    border: 3px solid #f0f0f0; /* Пространство между ползунком и краем */
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Цвет ползунка при наведении */
+}
+
+.message {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.message.sent {
+    background-color: #ebeded; /* Цвет для отправленных сообщений */
+    align-self: flex-end;
+    text-align: left;
+    margin-left: 350px; /* Смещает блок сообщения влево */
+    margin-right: 55px;
+    font-family: Arial; /* Устанавливает шрифт Arial */
+
+<!--    border: 2px solid #e0f7fa; /* Граница с оттенком серого */-->
+<!--    border-radius: 15px; /* Закругленные углы */-->
+}
+
+.messages-list {
+    list-style: none; /* Убираем точки */
+    padding: 0; /* Убираем отступы */
+    margin: 0; /* Убираем отступы */
+}
+.message.received {
+    background-color: #ffffff; /* Цвет для полученных сообщений */
+    align-self: flex-start;
+    text-align: left;
+    margin-right: 350px; /* Смещает блок сообщения вправо */
+    margin-left: 55px;
+    border: 5px solid #e0f7fa;
+    box-shadow: 0 0 15px rgba(224, 247, 250, 0.8);
+    font-family: Arial;
+}
+
+.message-form {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border-color: None;
+    max-width: 900px;
+    margin: auto;
+    gap: 10px;
+    margin-bottom: 20px; /* Добавляем отступ снизу */
+}
+
+.message-input {
+    flex: 1;
+    border: none; /* Убираем границу */
+    background-color: #ffffff;
+    height: 80px; /* Уменьшите высоту поля ввода */
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none; /* Запретите изменение размера */
+    outline: none; /* Убираем границу при фокусе */
+}
+
+.btn-send, .generate-btn, .clear-btn  {
+    border-radius: 100px;
+    background-color: #58d5db; /* Цвет кнопок */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+@keyframes zoom-in-out {
+    0% {
+        transform: scale(1);
     }
-
-    .input-group-append {
-      background-color: #EAECEE; /* Серый цвет фона */
-    border-radius: 20px; /* Радиус скругления углов */
-    padding: 10px; /* Отступы внутри блока */
+    50% {
+        transform: scale(1.095);
     }
-
-    .message-form {
-      background-color: #EAECEE; /* Серый цвет фона */
-    border-radius: 20px; /* Радиус скругления углов */
-    padding: 10px; /* Отступы внутри блока */
+    100% {
+        transform: scale(1);
     }
+}
 
-    .btn.btn-primary.btn-send {
-      background-color: #ABB2B9; /* Серый цвет фона */
-    border-radius: 20px; /* Радиус скругления углов */
-    padding: 10px; /* Отступы внутри блока */
-      border: 1px solid #D7DBDD;
-    }
+/* Применение анимации к изображению */
+.zoom-image {
+    animation: zoom-in-out 3s ease-in-out infinite; /* Анимация будет повторяться бесконечно */
+    transition: box-shadow 0.3s ease; /* Плавный переход для тени, если нужно */
+}
 
-    .form-control.message-input {
-      background-color: white; /* Серый цвет фона */
-    border-radius: 5px; /* Радиус скругления углов */
-    /*padding: 10px; !* Отступы внутри блока *!*/
-      border: 1px;
-    }
-
-
-  </style>
+.zoom-image:hover {
+<!--    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень при наведении */-->
+}
+</style>
 {% endblock %}
 
 {% block content %}
-
-  <span><div>главная / помощник</div>
-  <h1><img src="{% static 'main/img/assistant.png' %}" style="width:3%">    помощник</h1></span>
+  <span>
+<!--    <div>главная / фасилитатор обратной связи</div>-->
+    <img src="{% static 'main/img/дуся.png' %}" class="zoom-image" style="width:8%; display: block; margin: 0 auto;">
+  </span>
   <div class="chat-container">
     <div class="card flex-grow-1">
-  <!--    <div class="card-header bg-primary text-white"><b>GigaChat</b></div>-->
-  <!--      <div class="card-header bg-primary text-white" style="text-align: right;"><a style="color: whitesmoke" href="/"><b>вернуться обратно</b></a></div>-->
-  <!--    {% if user.is_authenticated %}-->
-  <!--    <div class="card-header bg-primary text-white"><b>Добро пожаловать, {{user.username}}</b>  <a style="color: whitesmoke" href="logout">Выйти</a></div>-->
-  <!--    <div class="card-header bg-primary text-white"><b>Добро пожаловать, {{user.username}}!</b>  <a style="color: whitesmoke" href="/">Вернуться в Пульс</a></div>-->
-  <!--    {% else %}-->
-  <!--    <div class="card-header bg-primary text-white"><a style="color: whitesmoke" href="login">Войти</a>  <a style="color: whitesmoke" href="register">Регистрация</a></div>-->
-  <!--    {% endif %}-->
       <div class="card-body messages-box">
-
         <ul class="list-unstyled messages-list">
-
-          <li class="message received">
-            <div class="message-text">
-              <div class="message-sender">
-                <b>ИИ-помощник</b>
-              </div>
-              <div class="message-content">
-                Добрый день, Ева! Рад Вас видеть! Я проанализировал ситуацию в вашей команде и подготовил следующие рекомендации:
-                    <br><br> 1. Кузьмин Матвей Владимирович имеет перспективы повышения. Я могу предложить кандидатов из вашей команды для подготовки преемника и построить траекторию его подготовки к новой должности.
-                    <br><br> 2. Вам выделено 2 ПШЕ. Я могу порекомендовать внутренних кандидатов по вашему запросу.
-                    <br><br> 3. На этой неделе у вас уволился аналитик данных. Я могу создать заявку на вакансию и порекомендовать внутренних кандидатов.
-                    <br><br>Вас интересуют рекомендации по этим вопросам?
-
-              </div>
-            </div>
-          </li>
-
           {% for chat in chats %}
             {% if chat.user == request.user %}
+              <li class="message sent">
+                <div class="message-sender"><b>Ева</b></div>
+                <div class="message-text">
+                  <div class="message-content">{{ chat.message|safe }}</div>
+                </div>
+              </li>
               <li class="message received">
                 <div class="message-text">
-                  <div class="message-sender">
-                    <b>Ева</b>
-                  </div>
-                  <div class="message-content">
-                    {{chat.message}}
-                  </div>
+                  <div class="message-sender"><b>ДУСя</b></div>
+                  <div class="message-content">{{ chat.response|safe }}</div>
                 </div>
-          </li>
-
-          <li class="message received">
-            <div class="message-text">
-              <div class="message-sender">
-                <b>ИИ-помощник</b>
-              </div>
-              <div class="message-content">
-                {{chat.response}}
-              </div>
-            </div>
-          </li>
+              </li>
             {% endif %}
           {% endfor %}
-
         </ul>
-
       </div>
-      <br><br>
-      <br><br>
-      <br><br>
     </div>
     <form class="message-form">
-      {%csrf_token%}
-      <div class="input-group">
-        <input type="text" class="form-control message-input" placeholder="Напишите запрос...">
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-primary btn-send">Отправить</button>
-        </div>
-      </div>
+      {% csrf_token %}
+      <textarea class="form-control message-input" placeholder="Напишите сообщение"></textarea>
+      <button type="submit" class="btn btn-primary btn-send">Отправить</button>
+      <button type="button" class="generate-btn" id="generateBtn">Сгенерировать<br>ОС</button>
+      <button type="button" class="clear-btn" id="clearBtn">Очистить<br>переписку</button> <!-- Новая кнопка -->
     </form>
   </div>
 
@@ -189,30 +176,21 @@
     const messagesList = document.querySelector('.messages-list');
     const messageForm = document.querySelector('.message-form');
     const messageInput = document.querySelector('.message-input');
+    const generateBtn = document.getElementById('generateBtn');
 
-    // Когда пользователь нажал на кнопку, то тогда
-    // страница обновляться не будет
     messageForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      // сохраняем введенное сообщение (обрезая до нужных слов):
       const message = messageInput.value.trim();
-      if (message.length === 0) {
-        return;
-      }
-      // создаем новый элемент список, в который добавляем классы message и sent
+      if (message.length === 0) return;
+
       const messageItem = document.createElement('li');
       messageItem.classList.add('message', 'sent');
       messageItem.innerHTML = `
-          <div class="message-text">
-              <div class="message-sender">
-                  <b>Ева</b>
-              </div>
-              <div class="message-content">
-                  ${message}
-              </div>
-          </div>`;
+        <div class="message-text">
+          <div class="message-sender"><b>Ева</b></div>
+          <div class="message-content">${message}</div>
+        </div>`;
       messagesList.appendChild(messageItem);
-
       messageInput.value = '';
 
       fetch('', {
@@ -223,24 +201,58 @@
           'message': message
         })
       })
-        .then(response => response.json())
-        .then(data => {
-          const response = data.response;
-          const messageItem = document.createElement('li');
-          messageItem.classList.add('message', 'received');
-          messageItem.innerHTML = `
+      .then(response => response.json())
+      .then(data => {
+        const responseMessage = data.response;
+        const messageItem = document.createElement('li');
+        messageItem.classList.add('message', 'received');
+        messageItem.innerHTML = `
           <div class="message-text">
-              <div class="message-sender">
-                <b>ИИ-помощник</b>
-              </div>
-              <div class="message-content">
-                  ${response}
-              </div>
-          </div>
-            `;
-          messagesList.appendChild(messageItem);
-        });
+            <div class="message-sender"><b>ДУСя</b></div>
+            <div class="message-content">${responseMessage}</div>
+          </div>`;
+        messagesList.appendChild(messageItem);
+      });
     });
 
+    generateBtn.addEventListener('click', () => {
+      fetch('generate/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+        body: JSON.stringify({ user_id: '{{ request.user.id }}' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const messages = data.messages;
+        messages.forEach(msg => {
+          const messageItem = document.createElement('li');
+          messageItem.classList.add('message', msg.type);
+          messageItem.innerHTML = `
+            <div class="message-text">
+              <div class="message-sender"><b>${msg.sender}</b></div>
+              <div class="message-content">${msg.content}</div>
+            </div>`;
+          messagesList.appendChild(messageItem);
+        });
+      });
+    });
+
+    const clearBtn = document.getElementById('clearBtn');
+
+  clearBtn.addEventListener('click', () => {
+    fetch('clear/', { // Путь к вашему серверному обработчику очистки
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' }
+    })
+    .then(response => {
+      if (response.ok) {
+        messagesList.innerHTML = ''; // Очистка переписки в интерфейсе
+      } else {
+        console.error('Ошибка очистки переписки');
+      }
+    })
+    .catch(error => console.error('Ошибка:', error));
+  });
   </script>
 {% endblock %}
+

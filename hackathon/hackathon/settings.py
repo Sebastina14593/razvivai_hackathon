@@ -9,27 +9,29 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent # полный путь к нашему проекту
 
+env = environ.Env()
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # секретный ключ приложения:
-SECRET_KEY = 'django-insecure-dw!c^6n6(ro#r2s98im(1y-b2nijdp*nu56p!owkyi=1z^uvtd'
-
+SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True - все ошибки видны сотруднику (в конце проекта не забудь DEBUG = False)
-DEBUG = True
+# DEBUG = True
+DEBUG = env('DEBUG')
 
 # Доменные именна, на которых будет размещаться приложение
 ALLOWED_HOSTS = [] # В дальнейшем https://iriski.ru
-
 
 # Application definition
 
@@ -88,19 +90,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3', # будем работать с ней, т.к. простая
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django',
-#         'USER': 'django_admin',
-#         'PASSWORD': '09KodKrasny!03',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432'
-#
-#     }
-#
-# }
 
 
 # Password validation
